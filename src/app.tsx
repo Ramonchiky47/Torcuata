@@ -936,7 +936,7 @@ function App() {
                           cy="50%"
                           outerRadius={80}
                           dataKey="value"
-                          label={({name, value}) => value > 0 ? `${value}` : ''}
+                          
                         >
                           {satisfactionData.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={entry.color} />
