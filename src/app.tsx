@@ -281,7 +281,7 @@ function App() {
   // Confirmación para limpiar respuestas
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
-  // Estado inicial vacío - sin respuestas previas
+  // Estado inicial cargando desde localStorage
   const [responses, setResponses] = useState<Response[]>(loadResponses());
 
   // Estado inicial con todas las calificaciones en 0 (sin influencia)
@@ -361,6 +361,7 @@ function App() {
     setConfirmPassword('');
   }, [oldPassword, newPassword, confirmPassword, currentAdminPassword]);
 
+  // ✅ CAMBIO AQUÍ - Función handleSubmit con guardado
   const handleSubmit = useCallback(() => {
     if (!validateForm()) {
       alert('Por favor, completa todas las preguntas obligatorias antes de enviar.');
@@ -372,7 +373,11 @@ function App() {
       id: responses.length + 1,
       fecha: new Date().toISOString().split('T')[0]
     };
-    setResponses(prev => [...prev, response]);
+    
+    const newResponses = [...responses, response];
+    setResponses(newResponses);
+    saveResponses(newResponses); // ← GUARDADO AGREGADO
+    
     setNewResponse({
       satisfaccionGeneral: 0,
       comunicacion: 0,
@@ -387,10 +392,12 @@ function App() {
     });
     setValidationErrors({});
     alert('¡Gracias por tu respuesta! Ha sido enviada de forma anónima.');
-  }, [newResponse, responses.length, validateForm]);
+  }, [newResponse, responses, validateForm]);
 
+  // ✅ CAMBIO AQUÍ - Función handleClearResponses con guardado
   const handleClearResponses = useCallback(() => {
     setResponses([]);
+    saveResponses([]); // ← GUARDADO AGREGADO
     setShowConfirmDialog(false);
     alert('Todas las respuestas han sido eliminadas.');
   }, []);
