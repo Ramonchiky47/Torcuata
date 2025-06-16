@@ -282,7 +282,7 @@ function App() {
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
   // Estado inicial vacío - sin respuestas previas
-  const [responses, setResponses] = useState<Response[]>([]);
+  const [responses, setResponses] = useState<Response[]>(loadResponses());
 
   // Estado inicial con todas las calificaciones en 0 (sin influencia)
   const [newResponse, setNewResponse] = useState<Omit<Response, 'id' | 'fecha'>>({
