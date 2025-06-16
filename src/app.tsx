@@ -2,6 +2,26 @@ import React, { useState, useCallback, useMemo } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { Users, TrendingUp, MessageSquare, Star, Send, BarChart3, Home, Lock, LogOut, Settings, Key, Trash2, AlertTriangle } from 'lucide-react';
 
+// Funciones para guardar y cargar respuestas
+const saveResponses = (responses: Response[]) => {
+  try {
+    localStorage.setItem('happyDayResponses', JSON.stringify(responses));
+    console.log('✅ Respuestas guardadas localmente');
+  } catch (error) {
+    console.error('❌ Error guardando:', error);
+  }
+};
+
+const loadResponses = (): Response[] => {
+  try {
+    const saved = localStorage.getItem('happyDayResponses');
+    return saved ? JSON.parse(saved) : [];
+  } catch (error) {
+    console.error('❌ Error cargando:', error);
+    return [];
+  }
+};
+
 interface Response {
   id: number;
   fecha: string;
